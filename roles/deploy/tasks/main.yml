@@ -7,8 +7,14 @@
 
 - name: chown app war
   file: path=/usr/share/tomcat6/webapps/ROOT.war owner=tomcat group=tomcat
+  notify:
+  - restart tomcat
 
 - name: deploy posgresql connector
   get_url: >
     url=http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar 
     dest=/usr/share/tomcat6/lib
+  notify:
+  - restart tomcat
+
+#- name: add context
