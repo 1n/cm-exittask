@@ -1,7 +1,7 @@
 ---
 - name: change postgre authentication for tomcat user
   template: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
-  #register: config
+  register: config
   notify:
   - restart postgresql
 
@@ -13,12 +13,13 @@
 #    insertafter=EOF
 #  register: config
 
-#- name: reload postrge configuration
-#  service: name=postgresql state=restarted
-# when: config|changed
+- name: reload postrge configuration
+  service: name=postgresql state=restarted
+  when: config|changed
 
 - name: create database app_test
   postgresql_db: name=app_test state=present
+  register: database
 
 - name: create user tomcat
   postgresql_user: name=tomcat db=app_test state=present
@@ -40,3 +41,4 @@
 
 - name: restore db from dump
   command: psql -U tomcat -d app_test -f /tmp/app_test.sql
+  when: database|changed

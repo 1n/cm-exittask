@@ -17,4 +17,11 @@
   notify:
   - restart tomcat
 
-#- name: add context
+- name: add postgre resource to context.xml
+  lineinfile: >
+    dest=/usr/share/tomcat6/conf/context.xml
+    line='<Resource name="jdbc/postgres" auth="Container" type="javax.sql.DataSource" driverClassName="org.postgresql.Driver" url="jdbc:postgresql://127.0.0.1:5432/app_test" user="tomcat" password="postgres" maxActive="20" maxIdle="10" maxWait="-1"/>'
+    state=present
+    insertbefore="^</Context>"
+  notify:
+  - restart tomcat
