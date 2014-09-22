@@ -8,6 +8,7 @@
     app_url: https://github.com/rightscale/examples/blob/unified_tomcat_pg/ROOT.war?raw=true
     catalina_home: /usr/share/tomcat6
     jdbc_driver_url: http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar
+    maintenance_mode: Off
 
   roles:
     - install

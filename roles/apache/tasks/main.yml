@@ -3,3 +3,8 @@
   template: src=vhost-tomcat.conf dest=/etc/httpd/conf.d/vhost-tomcat.conf
   notify:
   - restart apache
+
+- name: set maintenance mode
+  template: src=maintenance-mode.conf dest=/etc/httpd/conf.d/maintenance-mode.conf
+  notify:
+  - restart apache
