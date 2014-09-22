@@ -9,19 +9,19 @@
   service: name=postgresql state=restarted
   when: config|changed
 
-- name: create database app_test
-  postgresql_db: name=app_test state=present
+- name: create database {{ db_name }}
+  postgresql_db: name={{ db_name }} state=present
   register: database
 
 - name: create user tomcat
-  postgresql_user: name=tomcat db=app_test state=present
+  postgresql_user: name={{ db_user }} db={{ db_name }} state=present
 
-- name: grant privileges to user tomcat on app_test db
+- name: grant privileges to user {{ db_user }} on {{ db_name }} db
   postgresql_privs: >
     privs=ALL 
-    db=app_test 
+    db={{ db_name }} 
     state=present 
-    role=tomcat 
+    role={{ db_user }} 
     objs=ALL_IN_SCHEMA
 
 - name: copy postgres dump
@@ -32,5 +32,5 @@
     group=tomcat
 
 - name: restore db from dump
-  command: psql -U tomcat -d app_test -f /tmp/app_test.sql
+  command: psql -U {{ db_user }} -d {{ db_name }} -f /tmp/app_test.sql
   when: database|changed

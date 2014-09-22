@@ -2,6 +2,12 @@
 - hosts: exittask
   user: vagrant
   sudo: yes
+  vars:
+    db_name: app_test
+    db_user: tomcat
+    app_url: https://github.com/rightscale/examples/blob/unified_tomcat_pg/ROOT.war?raw=true
+    catalina_home: /usr/share/tomcat6
+    jdbc_driver_url: http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar
 
   roles:
     - install

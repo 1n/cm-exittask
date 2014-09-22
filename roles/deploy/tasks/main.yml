@@ -1,25 +1,28 @@
 ---
 - name: download app from github and deploy it to tomcat6
   get_url: >
-    url=https://github.com/rightscale/examples/blob/unified_tomcat_pg/ROOT.war?raw=true 
-    dest=/usr/share/tomcat6/webapps/ 
+    url={{ app_url }}}
+    dest={{ catalina_home }}/webapps/ 
     validate_certs=no
 
 - name: chown app war
-  file: path=/usr/share/tomcat6/webapps/ROOT.war owner=tomcat group=tomcat
+  file: >
+    path={{ catalina_home }}/webapps/ROOT.war
+    owner=tomcat
+    group=tomcat
   notify:
   - restart tomcat
 
 - name: download posgresql connector
   get_url: >
-    url=http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar 
-    dest=/usr/share/tomcat6/lib
+    url={{ jdbc_driver_url }} 
+    dest={{ catalina_home }}/lib
   notify:
   - restart tomcat
 
 - name: add postgre resource to context.xml
   lineinfile: >
-    dest=/usr/share/tomcat6/conf/context.xml
+    dest={{ catalina_home }}/conf/context.xml
     line='<Resource name="jdbc/postgres" auth="Container" type="javax.sql.DataSource" driverClassName="org.postgresql.Driver" url="jdbc:postgresql://127.0.0.1:5432/app_test" user="tomcat" password="postgres" maxActive="20" maxIdle="10" maxWait="-1"/>'
     state=present
     insertbefore="^</Context>"
