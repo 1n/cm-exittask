@@ -5,14 +5,6 @@
   notify:
   - restart postgresql
 
-#- name: change postgre authentication for tomcat user
-#  lineinfile: >
-#    dest=/var/lib/pgsql/data/pg_hba.conf
-#    line="host    all         tomcat                            trust"
-#    state=present
-#    insertafter=EOF
-#  register: config
-
 - name: reload postrge configuration
   service: name=postgresql state=restarted
   when: config|changed
