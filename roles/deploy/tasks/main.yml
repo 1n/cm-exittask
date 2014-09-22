@@ -1,0 +1,14 @@
+---
+- name: download app from github and deploy it to tomcat6
+  get_url: >
+    url=https://github.com/rightscale/examples/blob/unified_tomcat_pg/ROOT.war?raw=true 
+    dest=/usr/share/tomcat6/webapps/ 
+    validate_certs=no
+
+- name: chown app war
+  file: path=/usr/share/tomcat6/webapps/ROOT.war owner=tomcat group=tomcat
+
+- name: deploy posgresql connector
+  get_url: >
+    url=http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar 
+    dest=/usr/share/tomcat6/lib

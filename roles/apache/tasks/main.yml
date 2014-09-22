@@ -1,0 +1,3 @@
+---
+- name: create virtual host for tomcat
+  template: src=vhost-tomcat.conf dest=/etc/httpd/conf.d/vhost-tomcat.conf

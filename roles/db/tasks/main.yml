@@ -1,0 +1,34 @@
+---
+#- name: change postgre authentication for tomcat user
+#  template: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+
+- name: change postgre authentication for tomcat user
+  lineinfile: >
+    dest=/var/lib/pgsql/data/pg_hba.conf
+    line="host    all         tomcat                            trust"
+    state=present
+    insertafter=EOF
+
+- name: create database app_test
+  postgresql_db: name=app_test state=present
+
+- name: create user tomcat
+  postgresql_user: name=tomcat db=app_test state=present
+
+- name: grant privileges to user tomcat on app_test db
+  postgresql_privs: >
+    privs=ALL 
+    db=app_test 
+    state=present 
+    role=tomcat 
+    objs=ALL_IN_SCHEMA
+
+- name: copy postgres dump
+  file: >
+    src=app_test.sql 
+    dest=/tmp/app_test.sql 
+    owner=tomcat 
+    group=tomcat
+
+- name: restore db from dump
+  command: psql -U tomcat -d app_test -f /tmp/app_test.sql
