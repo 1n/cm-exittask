@@ -1,5 +1,5 @@
 ---
-- name: install tomcat6 and httpd
+- name: install tomcat6 and httpd and some dependencies
   yum: name={{item}} state=latest
   with_items:
     - tomcat6

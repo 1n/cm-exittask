@@ -10,7 +10,7 @@
   notify:
   - restart tomcat
 
-- name: deploy posgresql connector
+- name: download posgresql connector
   get_url: >
     url=http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar 
     dest=/usr/share/tomcat6/lib

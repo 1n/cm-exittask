@@ -1,6 +1,6 @@
 ---
-- name: change postgre authentication for tomcat user
-  template: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+- name: change postgre authentication
+  copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
   register: config
   notify:
   - restart postgresql
