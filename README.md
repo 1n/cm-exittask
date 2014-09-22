@@ -1,7 +1,7 @@
 cm-exittask
 ===========
 
-start:
+normal mode:
 $ ansible-playbook site.yml -i hosts
 
 set maintenance mode:

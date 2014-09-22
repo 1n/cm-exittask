@@ -31,6 +31,6 @@
     owner=tomcat
     group=tomcat
 
-- name: restore db from dump
+- name: restore db {{ db_name }} from dump
   command: psql -U {{ db_user }} -d {{ db_name }} -f /tmp/app_test.sql
   when: database|changed
